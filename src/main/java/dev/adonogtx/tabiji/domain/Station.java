@@ -15,10 +15,10 @@ public class Station {
 
     @Builder
     public Station(String code, String name) {
-        if (!StringUtils.hasText(code)) {
+        if (code == null || code.isBlank()) {
             throw new StationException("Station code is required");
         }
-        if (!StringUtils.hasText(name)){
+        if (name == null || name.isBlank()) {
             throw new StationException("Station name is required");
         }
         this.code = code;
