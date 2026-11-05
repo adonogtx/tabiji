@@ -3,13 +3,11 @@ package dev.adonogtx.tabiji.domain;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.springframework.util.StringUtils;
 
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Station {
     @EqualsAndHashCode.Include
-
     private final String code;
     private final String name;
 
