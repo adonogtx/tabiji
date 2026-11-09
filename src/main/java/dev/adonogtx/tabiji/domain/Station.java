@@ -3,9 +3,11 @@ package dev.adonogtx.tabiji.domain;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class Station {
     @EqualsAndHashCode.Include
     private final String code;
