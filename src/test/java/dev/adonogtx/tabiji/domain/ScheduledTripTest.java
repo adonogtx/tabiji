@@ -1,9 +1,11 @@
 package dev.adonogtx.tabiji.domain;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ScheduledTripTest {
 
@@ -19,9 +21,17 @@ public class ScheduledTripTest {
                 .arrival(LocalDateTime.now().plusHours(1))
                 .build();
 
-        System.out.println(trip);
+        assertThat(trip).hasNoNullFieldsOrProperties();
+    }
 
-        Assertions.assertThat(trip).hasNoNullFieldsOrProperties();
+    @Test
+    void create_ThrowsDomainException_WhenOriginEqualsDestination() {
+        var tokyo = new Station("TYO", "Tokyo");
+        var departure = LocalDateTime.of(2026, 11, 16, 9, 0);
+        var arrival = LocalDateTime.of(2026, 11, 16, 11, 30);
+
+        assertThrows(StationException.class,
+                () -> new ScheduledTrip(1L, tokyo, tokyo, departure, arrival));
     }
 
 }

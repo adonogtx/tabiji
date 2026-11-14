@@ -27,6 +27,9 @@ public class ScheduledTrip {
         if (destination == null) {
             throw new StationException("Destination field is required");
         }
+        if (origin.equals(destination)) {
+            throw new StationException("Origin and destination must be different");
+        }
         if (departure == null) {
             throw new StationException("Departure field is required");
         }
