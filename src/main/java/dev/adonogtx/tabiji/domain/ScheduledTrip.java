@@ -12,29 +12,34 @@ import java.time.LocalDateTime;
 @ToString
 public class ScheduledTrip {
     @EqualsAndHashCode.Include
-    Long id;
-    Station origin;
-    Station destination;
-    LocalDateTime departure;
-    LocalDateTime arrival;
+    private final Long id;
+    private final Station origin;
+    private final Station destination;
+    private final LocalDateTime departure;
+    private final LocalDateTime arrival;
 
     @Builder
     public ScheduledTrip(Long id, Station origin, Station destination, LocalDateTime departure, LocalDateTime arrival) {
-
+        if (id == null) {
+            throw new DomainException("The field 'id' is required");
+        }
         if (origin == null) {
-            throw new StationException("Origin is required");
+            throw new DomainException("The field 'origin' is required");
         }
         if (destination == null) {
-            throw new StationException("Destination field is required");
-        }
-        if (origin.equals(destination)) {
-            throw new StationException("Origin and destination must be different");
+            throw new DomainException("The field 'destination' is required");
         }
         if (departure == null) {
-            throw new StationException("Departure field is required");
+            throw new DomainException("The field 'departure' is required");
         }
         if (arrival == null) {
-            throw new StationException("Arrival field is required");
+            throw new DomainException("The field 'arrival' is required");
+        }
+        if (origin.equals(destination)) {
+            throw new DomainException("The fields 'origin' and 'destination' must be different");
+        }
+        if (!arrival.isAfter(departure)) {
+            throw new DomainException("The field 'departure' must be strictly before 'arrival'");
         }
 
         this.id = id;
@@ -43,5 +48,4 @@ public class ScheduledTrip {
         this.departure = departure;
         this.arrival = arrival;
     }
-
 }

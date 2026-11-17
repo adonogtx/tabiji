@@ -16,13 +16,12 @@ public class Station {
     @Builder
     public Station(String code, String name) {
         if (code == null || code.isBlank()) {
-            throw new StationException("Station code is required");
+            throw new DomainException("The field 'code' is required");
         }
         if (name == null || name.isBlank()) {
-            throw new StationException("Station name is required");
+            throw new DomainException("The field 'name' is required");
         }
         this.code = code;
         this.name = name;
     }
-
 }
