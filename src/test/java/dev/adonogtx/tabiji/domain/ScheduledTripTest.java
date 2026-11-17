@@ -41,6 +41,21 @@ class ScheduledTripTest {
     }
 
     @Test
+    @DisplayName("Create scheduled trip when arrival is on the next day")
+    void create_ReturnsScheduledTrip_WhenArrivalIsOnTheNextDay() {
+        var departure = LocalDateTime.of(2026, 11, 16, 23, 30);
+        var arrival = LocalDateTime.of(2026, 11, 17, 1, 10);
+
+        var trip = scheduledTripUtils.newScheduledTripBuilder()
+                .departure(departure)
+                .arrival(arrival)
+                .build();
+
+        assertThat(trip.getDeparture()).isEqualTo(departure);
+        assertThat(trip.getArrival()).isEqualTo(arrival);
+    }
+
+    @Test
     @DisplayName("Throw exception when origin and destination have the same code")
     void create_ThrowsDomainException_WhenOriginEqualsDestination() {
         assertThatThrownBy(() -> scheduledTripUtils.newScheduledTripBuilder()
