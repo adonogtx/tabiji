@@ -30,8 +30,8 @@ class StationTest {
                 .name("Shinjuku")
                 .code(null)
                 .build())
-                .isInstanceOf(StationException.class)
-                .hasMessage("Station code is required");
+                .isInstanceOf(DomainException.class)
+                .hasMessage("The field 'code' is required");
     }
 
     @Test
@@ -41,8 +41,8 @@ class StationTest {
                 .name("Shinjuku")
                 .code("")
                 .build())
-                .isInstanceOf(StationException.class)
-                .hasMessage("Station code is required");
+                .isInstanceOf(DomainException.class)
+                .hasMessage("The field 'code' is required");
     }
 
     @Test
@@ -52,8 +52,8 @@ class StationTest {
                 .name("Shinjuku")
                 .code("   ")
                 .build())
-                .isInstanceOf(StationException.class)
-                .hasMessage("Station code is required");
+                .isInstanceOf(DomainException.class)
+                .hasMessage("The field 'code' is required");
     }
 
     @Test
@@ -63,8 +63,8 @@ class StationTest {
                 .name(null)
                 .code("SHI")
                 .build())
-                .isInstanceOf(StationException.class)
-                .hasMessage("Station name is required");
+                .isInstanceOf(DomainException.class)
+                .hasMessage("The field 'name' is required");
     }
 
     @Test
@@ -74,8 +74,8 @@ class StationTest {
                 .name("")
                 .code("SHI")
                 .build())
-                .isInstanceOf(StationException.class)
-                .hasMessage("Station name is required");
+                .isInstanceOf(DomainException.class)
+                .hasMessage("The field 'name' is required");
     }
 
     @Test
@@ -85,8 +85,8 @@ class StationTest {
                 .name("  ")
                 .code("SHI")
                 .build())
-                .isInstanceOf(StationException.class)
-                .hasMessage("Station name is required");
+                .isInstanceOf(DomainException.class)
+                .hasMessage("The field 'name' is required");
     }
 
     @Test
@@ -125,5 +125,4 @@ class StationTest {
         assertThat(fuchuTokyo)
                 .isNotEqualTo(fuchuHiroshima);
     }
-
 }
