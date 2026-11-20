@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -17,6 +19,7 @@ public class ScheduledTrip {
     private final Station destination;
     private final LocalDateTime departure;
     private final LocalDateTime arrival;
+    private final Set<Seat> seats = new HashSet<>();
 
     @Builder
     public ScheduledTrip(Long id, Station origin, Station destination, LocalDateTime departure, LocalDateTime arrival) {
@@ -47,5 +50,22 @@ public class ScheduledTrip {
         this.destination = destination;
         this.departure = departure;
         this.arrival = arrival;
+    }
+
+    public void addSeat(Seat seat) {
+        if (seat == null) {
+            throw new DomainException("The seat is required");
+        }
+        if (!seats.add(seat)) {
+            throw new DomainException("The seat already exists in this trip");
+        }
+    }
+
+    public Set<Seat> getSeats() {
+        return Set.copyOf(seats);
+    }
+
+    public boolean hasSeat(Seat seat) {
+        return seats.contains(seat);
     }
 }
