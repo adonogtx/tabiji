@@ -141,4 +141,89 @@ class ScheduledTripTest {
                 .isInstanceOf(DomainException.class)
                 .hasMessage("The field 'arrival' is required");
     }
+
+    @Test
+    @DisplayName("Add seat to trip")
+    void addSeat_AddsSeat_WhenSeatIsValid() {
+
+        var trip = scheduledTripUtils.newScheduledTrip();
+        var seat = Seat.builder().carNumber(3).seatCode("12A").build();
+
+        trip.addSeat(seat);
+
+        assertThat(trip.getSeats()).containsExactlyInAnyOrder(seat);
+    }
+
+    @Test
+    @DisplayName("Throw exception when seat is null")
+    void addSeat_ThrowsDomainException_WhenSeatIsNull() {
+
+        var trip = scheduledTripUtils.newScheduledTrip();
+
+        assertThatThrownBy(() -> trip.addSeat(null))
+                .isInstanceOf(DomainException.class)
+                .hasMessage("The seat is required");
+    }
+
+    @Test
+    @DisplayName("Throw exception when seat already exists in this trip")
+    void addSeat_ThrowsDomainException_WhenSeatAlreadyExists() {
+
+        var trip = scheduledTripUtils.newScheduledTrip();
+        var seat = Seat.builder().carNumber(3).seatCode("12A").build();
+        var sameSeat = Seat.builder().carNumber(3).seatCode("12A").build();
+
+        trip.addSeat(seat);
+
+        assertThatThrownBy(() -> trip.addSeat(sameSeat))
+                .isInstanceOf(DomainException.class)
+                .hasMessage("The seat already exists in this trip");
+    }
+
+    @Test
+    @DisplayName("Add seats with same code in different cars")
+    void addSeat_AddsBothSeats_WhenSameCodeIsInDifferentCars() {
+
+        var trip = scheduledTripUtils.newScheduledTrip();
+        var seatInCar3 = Seat.builder().carNumber(3).seatCode("12A").build();
+        var seatInCar4 = Seat.builder().carNumber(4).seatCode("12A").build();
+
+        trip.addSeat(seatInCar3);
+        trip.addSeat(seatInCar4);
+
+        assertThat(trip.getSeats()).containsExactlyInAnyOrder(seatInCar3, seatInCar4);
+    }
+
+    @Test
+    @DisplayName("Return false when seat was not added to trip")
+    void hasSeat_ReturnsFalse_WhenSeatWasNotAdded() {
+
+        var trip = scheduledTripUtils.newScheduledTrip();
+        var seat = Seat.builder().carNumber(3).seatCode("12A").build();
+
+        assertThat(trip.hasSeat(seat)).isFalse();
+    }
+
+    @Test
+    @DisplayName("Return true when seat was added to trip")
+    void hasSeat_ReturnsTrue_WhenSeatWasAdded() {
+        var trip = scheduledTripUtils.newScheduledTrip();
+        var seat = Seat.builder().carNumber(3).seatCode("12A").build();
+        var sameSeat = Seat.builder().carNumber(3).seatCode("12A").build();
+
+        trip.addSeat(seat);
+
+        assertThat(trip.hasSeat(sameSeat)).isTrue();
+    }
+
+    @Test
+    @DisplayName("Throw exception when trying to modify seats from outside")
+    void getSeats_ThrowsUnsupportedOperationException_WhenModifiedExternally() {
+
+        var trip = scheduledTripUtils.newScheduledTrip();
+        var seat = Seat.builder().carNumber(3).seatCode("12A").build();
+
+        assertThatThrownBy(() -> trip.getSeats().add(seat))
+                .isInstanceOf(UnsupportedOperationException.class);
+    }
 }
