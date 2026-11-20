@@ -23,6 +23,18 @@ class SeatTest {
     }
 
     @Test
+    @DisplayName("Throw exception when carNumber is zero")
+    void create_ThrowsDomainException_WhenCarNumberIsZero() {
+
+        var carNumber = 0;
+        var seatCode = "12A";
+
+        assertThatThrownBy(() -> Seat.builder().carNumber(carNumber).seatCode(seatCode).build())
+                .isInstanceOf(DomainException.class)
+                .hasMessage("The field 'carNumber' must be greater than zero");
+    }
+
+    @Test
     @DisplayName("Throw exception when carNumber is negative")
     void create_ThrowsDomainException_WhenCarNumberIsNegative() {
 
