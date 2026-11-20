@@ -11,8 +11,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class Seat {
-    private Integer carNumber;
-    private String seatCode;
+    private final int carNumber;
+    private final String seatCode;
 
     @Builder
     public Seat(Integer carNumber, String seatCode) {
