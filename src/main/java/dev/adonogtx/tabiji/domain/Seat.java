@@ -14,7 +14,6 @@ public class Seat {
 
     @Builder
     public Seat(int carNumber, String seatCode) {
-
         if (carNumber <= 0) {
             throw new DomainException("The field 'carNumber' must be greater than zero");
         }

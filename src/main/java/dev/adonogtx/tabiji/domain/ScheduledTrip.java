@@ -19,6 +19,7 @@ public class ScheduledTrip {
     private final Station destination;
     private final LocalDateTime departure;
     private final LocalDateTime arrival;
+    @ToString.Exclude
     private final Set<Seat> seats = new HashSet<>();
 
     @Builder

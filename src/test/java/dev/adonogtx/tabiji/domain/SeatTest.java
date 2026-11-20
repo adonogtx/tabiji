@@ -105,7 +105,7 @@ class SeatTest {
 
     @Test
     @DisplayName("Seats with different car numbers are not equal")
-    void equals_ReturnsFalseWhenOnlySeatCodeIsEqual() {
+    void equals_ReturnsFalse_WhenOnlySeatCodeIsEqual() {
 
         var seat = Seat.builder().carNumber(2).seatCode("12A").build();
         var otherSeat = Seat.builder().carNumber(3).seatCode("12A").build();

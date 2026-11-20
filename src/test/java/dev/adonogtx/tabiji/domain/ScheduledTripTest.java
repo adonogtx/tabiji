@@ -151,7 +151,7 @@ class ScheduledTripTest {
 
         trip.addSeat(seat);
 
-        assertThat(trip.getSeats()).containsExactly(seat);
+        assertThat(trip.getSeats()).containsExactlyInAnyOrder(seat);
     }
 
     @Test
@@ -181,6 +181,20 @@ class ScheduledTripTest {
     }
 
     @Test
+    @DisplayName("Add seats with same code in different cars")
+    void addSeat_AddsBothSeats_WhenSameCodeIsInDifferentCars() {
+
+        var trip = scheduledTripUtils.newScheduledTrip();
+        var seatInCar3 = Seat.builder().carNumber(3).seatCode("12A").build();
+        var seatInCar4 = Seat.builder().carNumber(4).seatCode("12A").build();
+
+        trip.addSeat(seatInCar3);
+        trip.addSeat(seatInCar4);
+
+        assertThat(trip.getSeats()).containsExactlyInAnyOrder(seatInCar3, seatInCar4);
+    }
+
+    @Test
     @DisplayName("Return false when seat was not added to trip")
     void hasSeat_ReturnsFalse_WhenSeatWasNotAdded() {
 
@@ -195,10 +209,11 @@ class ScheduledTripTest {
     void hasSeat_ReturnsTrue_WhenSeatWasAdded() {
         var trip = scheduledTripUtils.newScheduledTrip();
         var seat = Seat.builder().carNumber(3).seatCode("12A").build();
+        var sameSeat = Seat.builder().carNumber(3).seatCode("12A").build();
 
         trip.addSeat(seat);
 
-        assertThat(trip.hasSeat(seat)).isTrue();
+        assertThat(trip.hasSeat(sameSeat)).isTrue();
     }
 
     @Test
