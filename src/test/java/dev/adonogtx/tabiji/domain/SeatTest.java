@@ -69,4 +69,48 @@ class SeatTest {
                 .hasMessage("The field 'seatCode' is required");
     }
 
+    @Test
+    @DisplayName("Throw exception when seatCode is empty")
+    void create_ThrowsDomainException_WhenSeatCodeIsEmpty() {
+
+        var carNumber = 3;
+        var seatCode = "";
+
+        assertThatThrownBy(() -> Seat.builder().carNumber(carNumber).seatCode(seatCode).build())
+                .isInstanceOf(DomainException.class)
+                .hasMessage("The field 'seatCode' is required");
+    }
+
+    @Test
+    @DisplayName("Seats with same car number and seat code are equal")
+    void equals_ReturnsTrue_WhenCarNumberAndSeatCodeAreEqual() {
+
+        var seat = Seat.builder().carNumber(3).seatCode("12A").build();
+        var sameSeat = Seat.builder().carNumber(3).seatCode("12A").build();
+
+        assertThat(seat)
+                .isEqualTo(sameSeat)
+                .hasSameHashCodeAs(sameSeat);
+    }
+
+    @Test
+    @DisplayName("Seats with different seat codes are not equal")
+    void equals_ReturnsFalse_WhenOnlyCarNumberIsEqual() {
+
+        var seat = Seat.builder().carNumber(3).seatCode("12A").build();
+        var otherSeat = Seat.builder().carNumber(3).seatCode("13A").build();
+
+        assertThat(seat).isNotEqualTo(otherSeat);
+    }
+
+    @Test
+    @DisplayName("Seats with different car numbers are not equal")
+    void equals_ReturnsFalseWhenOnlySeatCodeIsEqual() {
+
+        var seat = Seat.builder().carNumber(2).seatCode("12A").build();
+        var otherSeat = Seat.builder().carNumber(3).seatCode("12A").build();
+
+        assertThat(seat).isNotEqualTo(otherSeat);
+    }
+
 }
